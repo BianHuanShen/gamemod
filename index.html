@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senda Épica - RPG Pro</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <!-- Pantalla de Inicio -->
+    <div id="pantallaInicio" class="pantalla-inicio">
+        <div class="logo-juego">
+            <h1>Senda Épica</h1>
+            <p class="subtitulo">El destino te espera</p>
+        </div>
+        <button id="btnIniciar" class="btn-principal">⚔️ Comenzar Aventura</button>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="modalGameOver" class="modal oculto">
+        <div class="modal-contenido">
+            <h2>💀 Has Caído</h2>
+            <p>Tu viaje ha terminado... por ahora</p>
+            <div class="stats-finales">
+                <p>Nivel alcanzado: <span id="nivelFinal">1</span></p>
+                <p>Puntaje total: <span id="puntajeFinal">0</span></p>
+            </div>
+            <button id="btnReiniciar" class="btn-principal">🔄 Renacer</button>
+        </div>
+    </div>
+
+    <!-- HUD Principal -->
+    <div id="hudPrincipal" class="hud-principal oculto">
+        
+        <!-- Panel Superior: Stats del Jugador -->
+        <div class="panel-stats">
+            <div class="avatar-jugador">
+                <div class="marco-avatar">
+                    <div id="avatarImg" class="avatar-img"></div>
+                    <span id="nivelJugador" class="nivel-badge">1</span>
+                </div>
+                <div class="nombre-clase">
+                    <span class="nombre">Héroe</span>
+                    <span class="clase">Guerrero</span>
+                </div>
+            </div>
+
+            <div class="barras-stats">
+                <div class="barra-container">
+                    <div class="barra-label">
+                        <span>❤️ Vida</span>
+                        <span id="textoVida">100/100</span>
+                    </div>
+                    <div class="barra-bg">
+                        <div id="barraVida" class="barra-fill vida" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <div class="barra-container">
+                    <div class="barra-label">
+                        <span>🔮 Magia</span>
+                        <span id="textoMagia">0/0</span>
+                    </div>
+                    <div class="barra-bg">
+                        <div id="barraMagia" class="barra-fill magia" style="width: 0%"></div>
+                        <div id="barraMagiaBonus" class="barra-fill magia-bonus" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="stats-secundarios">
+                    <div class="stat-item" title="Ataque">
+                        <span class="stat-icon">⚔️</span>
+                        <span id="ataqueJugador" class="stat-valor">10</span>
+                    </div>
+                    <div class="stat-item" title="Defensa">
+                        <span class="stat-icon">🛡️</span>
+                        <span id="defensaJugador" class="stat-valor">5</span>
+                    </div>
+                    <div class="stat-item" title="Puntaje">
+                        <span class="stat-icon">🏆</span>
+                        <span id="puntaje" class="stat-valor">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="indicador-nivel">
+                <span class="label-zona">Zona Actual</span>
+                <span id="nombreZona" class="nombre-zona">Bosque Oscuro</span>
+                <span id="numeroNivel" class="numero-nivel">Nivel 1</span>
+            </div>
+        </div>
+
+        <!-- Área de Juego -->
+        <div id="escenario" class="escenario">
+            <div id="gameArea" class="game-area">
+                <div id="jugador" class="entidad jugador"></div>
+            </div>
+            
+            <!-- Efectos de daño flotantes -->
+            <div id="efectosContainer" class="efectos-container"></div>
+        </div>
+
+        <!-- Panel Inferior: Acciones -->
+        <div class="panel-acciones">
+            <div class="grupo-acciones acciones-principales">
+                <button id="atacarBtn" class="btn-accion btn-ataque" title="Atacar al enemigo más cercano">
+                    <span class="btn-icon">⚔️</span>
+                    <span class="btn-texto">Atacar</span>
+                    <span class="btn-hotkey">[Espacio]</span>
+                </button>
+                
+                <button id="curarBtn" class="btn-accion btn-cura" title="Usar poción (+25 HP)">
+                    <span class="btn-icon">🧪</span>
+                    <span class="btn-texto">Curar</span>
+                    <span id="contadorPociones" class="contador-item">30</span>
+                </button>
+            </div>
+
+            <div class="grupo-acciones acciones-equipo">
+                <button id="equiparArmaBtn" class="btn-accion btn-equipo" title="Equipar espada (+5 ATK)">
+                    <span class="btn-icon">⚔️</span>
+                    <span class="btn-texto">Espada</span>
+                    <span id="contadorEspadas" class="contador-item">1</span>
+                </button>
+                
+                <button id="equiparArmaduraBtn" class="btn-accion btn-equipo" title="Equipar armadura (+3 DEF)">
+                    <span class="btn-icon">🛡️</span>
+                    <span class="btn-texto">Armadura</span>
+                    <span id="contadorArmaduras" class="contador-item">1</span>
+                </button>
+            </div>
+
+            <div class="grupo-acciones acciones-magia">
+                <button id="aprenderMagiaBtn" class="btn-accion btn-magia" title="Aumentar poder mágico">
+                    <span class="btn-icon">✨</span>
+                    <span class="btn-texto">Meditar</span>
+                </button>
+            </div>
+
+            <div class="grupo-acciones acciones-especiales">
+                <button id="usarCristalBtn" class="btn-accion btn-especial oculto" title="Cristal Místico (+15 ATK)">
+                    <span class="btn-icon">💎</span>
+                    <span class="btn-texto">Cristal</span>
+                    <span id="contadorCristales" class="contador-item">0</span>
+                </button>
+                
+                <button id="usarOrbeBtn" class="btn-accion btn-especial oculto" title="Orbe de Poder (+2 MAG)">
+                    <span class="btn-icon">🔮</span>
+                    <span class="btn-texto">Orbe</span>
+                    <span id="contadorOrbes" class="contador-item">0</span>
+                </button>
+                
+                <button id="equiparEspadaLegendariaBtn" class="btn-accion btn-legendario oculto" title="Espada Legendaria (+25 ATK)">
+                    <span class="btn-icon">⚔️</span>
+                    <span class="btn-texto">Legendaria</span>
+                    <span id="contadorLegendarias" class="contador-item">0</span>
+                </button>
+                
+                <button id="equiparArmaduraEpicaBtn" class="btn-accion btn-legendario oculto" title="Armadura Épica (+15 DEF)">
+                    <span class="btn-icon">🛡️</span>
+                    <span class="btn-texto">Épica</span>
+                    <span id="contadorEpicas" class="contador-item">0</span>
+                </button>
+            </div>
+
+            <button id="abrirInventarioBtn" class="btn-inventario" title="Ver inventario completo [I]">
+                <span>🎒</span>
+            </button>
+        </div>
+
+        <!-- Log de Mensajes -->
+        <div id="mensaje" class="log-mensajes">
+            <div class="mensaje-bienvenida">¡Bienvenido a Senda Épica! Usa las flechas o arrastra para moverte.</div>
+        </div>
+    </div>
+
+    <!-- Ventana de Inventario -->
+    <div id="ventanaInventario" class="modal-inventario oculto">
+        <div class="inventario-contenido">
+            <div class="inventario-header">
+                <h2>🎒 Inventario</h2>
+                <button id="cerrarInventario" class="btn-cerrar">✕</button>
+            </div>
+            <div id="listaInventario" class="grid-inventario">
+                <!-- Items generados dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio -->
+    <audio id="sonidoGolpe" src="sonidos/golpe.mp3" preload="auto"></audio>
+    <audio id="sonidoCritico" src="sonidos/critico.mp3" preload="auto"></audio>
+    <audio id="sonidoLoot" src="sonidos/loot.mp3" preload="auto"></audio>
+
+    <script src="js/juego.js"></script>
+</body>
+</html>
