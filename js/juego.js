@@ -400,6 +400,10 @@ const UI = {
                 ev.preventDefault(); 
                 Acciones.atacar(); 
                 break;
+            case '1':
+            ev.preventDefault();
+            Acciones.curar();
+            break;
             case 'i': 
             case 'I': 
                 this.toggleInventario(); 
