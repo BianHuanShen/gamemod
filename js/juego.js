@@ -408,13 +408,17 @@ const UI = {
                 ev.preventDefault();
                 Acciones.equiparArma();
                 break;
-            case '2':
+            case '3':
                 ev.preventDefault();
                 Acciones.equiparArmadura();
                 break;
-            case '3':
+            case '4':
                 ev.preventDefault();
                 Acciones.aprenderMagia();
+                break;
+            case '5':
+                ev.preventDefault();
+                Acciones.usarCristal();
                 break;
             case 'i': 
             case 'I': 
