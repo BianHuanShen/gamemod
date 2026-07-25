@@ -403,7 +403,19 @@ const UI = {
             case '1':
                 ev.preventDefault();
                 Acciones.curar();
-            break;
+                break;
+            case '2':
+                ev.preventDefault();
+                Acciones.equiparArma();
+                break;
+            case '2':
+                ev.preventDefault();
+                Acciones.equiparArmadura();
+                break;
+            case '3':
+                ev.preventDefault();
+                Acciones.aprenderMagia();
+                break;
             case 'i': 
             case 'I': 
                 this.toggleInventario(); 
