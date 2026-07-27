@@ -111,7 +111,7 @@ class Enemigo extends Entidad {
     
     crearElemento() {
         const div = document.createElement('div');
-        div.className = `entidad enemigo ${this.datos.ia}`;
+        div.className = `enemigo ${this.datos.ia}`;
         if (this.datos.jefe) div.classList.add('jefe');
         div.dataset.index = this.index;
         
